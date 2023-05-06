@@ -1,12 +1,10 @@
-package com.example.newsm18p
+package com.example.newsm18p.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.newsm18p.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
