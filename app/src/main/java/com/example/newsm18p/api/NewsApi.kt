@@ -1,10 +1,9 @@
 package com.example.newsm18p.api
 
-import com.example.newsm18p.NewsResponse
+import com.example.newsm18p.models.NewsResponse
 import com.example.newsm18p.util.Constants.Companion.API_KEY
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface NewsApi {

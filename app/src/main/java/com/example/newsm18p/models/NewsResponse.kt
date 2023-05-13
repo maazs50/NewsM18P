@@ -1,4 +1,4 @@
-package com.example.newsm18p
+package com.example.newsm18p.models
 
 data class NewsResponse(
     val articles: List<Article>,
