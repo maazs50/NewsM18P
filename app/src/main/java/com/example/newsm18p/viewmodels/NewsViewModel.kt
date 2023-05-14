@@ -3,10 +3,12 @@ package com.example.newsm18p.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.newsm18p.models.Article
 import com.example.newsm18p.models.NewsResponse
 import com.example.newsm18p.util.Resource
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import java.lang.ArithmeticException
 
 class NewsViewModel(val newsRepository: NewsRepository) : ViewModel() {
 
@@ -54,4 +56,16 @@ class NewsViewModel(val newsRepository: NewsRepository) : ViewModel() {
         }
         return Resource.Error(response.message())
     }
+
+    fun saveArticle(article: Article) =
+        viewModelScope.launch {
+            newsRepository.insertUpdate(article)
+        }
+
+    fun getSavedNews() = newsRepository.getSavedArticles()
+
+    fun deleteArticle(article: Article) =
+        viewModelScope.launch {
+            newsRepository.deleteArticle(article)
+        }
 }
