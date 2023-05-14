@@ -21,7 +21,7 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
         private val tvPublishedAt: TextView = itemView.findViewById(R.id.tvPublishedAt)
 
         fun bind(article: Article){
-            Glide.with(itemView).load(article.url).into(image)
+            Glide.with(itemView).load(article.urlToImage).placeholder(R.drawable.ic_launcher_background).into(image)
             tvSource.text = article.source.name
             tvTitle.text = article.title
             tvPublishedAt.text = article.publishedAt
