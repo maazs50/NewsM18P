@@ -9,11 +9,13 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsm18p.R
 import com.example.newsm18p.adapter.NewsAdapter
 import com.example.newsm18p.db.ArticleDatabase
+import com.example.newsm18p.models.Article
 import com.example.newsm18p.util.Constants.Companion.SEARCH_NEWS_DELAY
 import com.example.newsm18p.util.Resource
 import com.example.newsm18p.viewmodels.NewsRepository
@@ -24,7 +26,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SearchNewsFragment:Fragment(R.layout.fragment_search_news) {
+class SearchNewsFragment:Fragment(R.layout.fragment_search_news),NewsAdapter.OnClickListener {
     val viewModel: NewsViewModel by activityViewModels(){
         val repo = NewsRepository(ArticleDatabase(this.requireContext()))
         NewsViewModelFactory(repo)
@@ -62,7 +64,7 @@ class SearchNewsFragment:Fragment(R.layout.fragment_search_news) {
         })
     }
     private fun setupRecyclerView(view: View){
-        newsAdapter = NewsAdapter()
+        newsAdapter = NewsAdapter(this)
         progressBar = view.findViewById(R.id.paginationProgressBar)
         rvList = view.findViewById(R.id.rvSearchNews)
         etSearch = view.findViewById(R.id.etSearch)
@@ -91,5 +93,14 @@ class SearchNewsFragment:Fragment(R.layout.fragment_search_news) {
                 }
             }
         }
+    }
+    override fun onClick(article: Article) {
+        val bundle = Bundle().apply {
+            putSerializable("article",article)
+        }
+        findNavController().navigate(
+            R.id.action_searchNewsFragment_to_articleFragment,
+            bundle
+        )
     }
 }

@@ -8,11 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsm18p.R
 import com.example.newsm18p.adapter.NewsAdapter
 import com.example.newsm18p.db.ArticleDatabase
+import com.example.newsm18p.models.Article
 import com.example.newsm18p.ui.NewsActivity
 import com.example.newsm18p.util.Resource
 import com.example.newsm18p.viewmodels.NewsRepository
@@ -20,7 +22,7 @@ import com.example.newsm18p.viewmodels.NewsViewModel
 import com.example.newsm18p.viewmodels.NewsViewModelFactory
 import com.facebook.shimmer.ShimmerFrameLayout
 
-class BreakingNewsFragment:Fragment(R.layout.fragment_breaking_news) {
+class BreakingNewsFragment:Fragment(R.layout.fragment_breaking_news), NewsAdapter.OnClickListener {
     val viewModel: NewsViewModel by activityViewModels(){
         val repo = NewsRepository(ArticleDatabase(this.requireContext()))
         NewsViewModelFactory(repo)
@@ -68,7 +70,7 @@ class BreakingNewsFragment:Fragment(R.layout.fragment_breaking_news) {
     }
     private fun setupRecyclerView(view: View){
         progressBar = view.findViewById(R.id.paginationProgressBar)
-        newsAdapter = NewsAdapter()
+        newsAdapter = NewsAdapter(this)
         rvList = view.findViewById(R.id.rvBreakingNews)
         rvList.apply {
             adapter = newsAdapter
@@ -81,5 +83,15 @@ class BreakingNewsFragment:Fragment(R.layout.fragment_breaking_news) {
     }
     private fun hideProgressBar(){
         progressBar.visibility = View.INVISIBLE
+    }
+
+    override fun onClick(article: Article) {
+        val bundle = Bundle().apply {
+            putSerializable("article",article)
+        }
+        findNavController().navigate(
+            R.id.action_breakingNewsFragment_to_articleFragment,
+            bundle
+        )
     }
 }
