@@ -7,6 +7,7 @@ import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import com.example.newsm18p.NewsApp
 import com.example.newsm18p.R
 import com.example.newsm18p.db.ArticleDatabase
 import com.example.newsm18p.viewmodels.NewsRepository
@@ -18,7 +19,7 @@ import com.google.android.material.snackbar.Snackbar
 class ArticleFragment:Fragment(R.layout.fragment_article) {
     val viewModel: NewsViewModel by activityViewModels(){
         val repo = NewsRepository(ArticleDatabase(this.requireContext()))
-        NewsViewModelFactory(repo)
+        NewsViewModelFactory(activity?.application as NewsApp,repo)
     }
     val args: ArticleFragmentArgs by navArgs()
     lateinit var webView: WebView

@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.newsm18p.NewsApp
 import com.example.newsm18p.R
 import com.example.newsm18p.adapter.NewsAdapter
 import com.example.newsm18p.db.ArticleDatabase
@@ -23,7 +24,7 @@ import com.google.android.material.snackbar.Snackbar
 class SavedNewsFragment:Fragment(R.layout.fragment_saved_news), NewsAdapter.OnClickListener {
     val viewModel: NewsViewModel by activityViewModels() {
         val repo = NewsRepository(ArticleDatabase(this.requireContext()))
-        NewsViewModelFactory(repo)
+        NewsViewModelFactory(activity?.application as NewsApp,repo)
     }
     lateinit var newsAdapter: NewsAdapter
     lateinit var rvList: RecyclerView

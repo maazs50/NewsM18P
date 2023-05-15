@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.AbsListView
 import android.widget.EditText
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.newsm18p.NewsApp
 import com.example.newsm18p.R
 import com.example.newsm18p.adapter.NewsAdapter
 import com.example.newsm18p.db.ArticleDatabase
@@ -31,7 +33,7 @@ import kotlinx.coroutines.launch
 class SearchNewsFragment:Fragment(R.layout.fragment_search_news),NewsAdapter.OnClickListener {
     val viewModel: NewsViewModel by activityViewModels(){
         val repo = NewsRepository(ArticleDatabase(this.requireContext()))
-        NewsViewModelFactory(repo)
+        NewsViewModelFactory(activity?.application as NewsApp,repo)
     }
     lateinit var newsAdapter: NewsAdapter
     lateinit var rvList: RecyclerView
@@ -94,7 +96,7 @@ class SearchNewsFragment:Fragment(R.layout.fragment_search_news),NewsAdapter.OnC
                 is Resource.Error ->{
                     hideProgressBar()
                     it.message?.let {
-                        Log.e(TAG,"An error occured")
+                        Toast.makeText(activity,"An error $it", Toast.LENGTH_LONG).show()
                     }
                 }
 

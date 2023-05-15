@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AbsListView
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.newsm18p.NewsApp
 import com.example.newsm18p.R
 import com.example.newsm18p.adapter.NewsAdapter
 import com.example.newsm18p.db.ArticleDatabase
@@ -27,7 +29,7 @@ import com.facebook.shimmer.ShimmerFrameLayout
 class BreakingNewsFragment:Fragment(R.layout.fragment_breaking_news), NewsAdapter.OnClickListener {
     val viewModel: NewsViewModel by activityViewModels(){
         val repo = NewsRepository(ArticleDatabase(this.requireContext()))
-        NewsViewModelFactory(repo)
+        NewsViewModelFactory(activity?.application as NewsApp,repo)
     }
     lateinit var newsAdapter: NewsAdapter
     lateinit var rvList: RecyclerView
@@ -98,7 +100,7 @@ class BreakingNewsFragment:Fragment(R.layout.fragment_breaking_news), NewsAdapte
                     shimmerContainer.visibility = View.GONE
                     rvList.visibility = View.VISIBLE
                     it.message?.let {
-                        Log.e(TAG,"An error occured")
+                        Toast.makeText(activity,"An error $it", Toast.LENGTH_LONG).show()
                     }
                 }
 
